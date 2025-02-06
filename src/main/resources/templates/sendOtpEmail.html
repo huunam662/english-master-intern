@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeU English OTP Verify</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .email-header {
+      text-align: center;
+      padding: 10px 0;
+    }
+    .email-content {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .otp-code {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333333;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="email-container">
+  <div class="email-header">
+    <h2>{{titleText}}</h2>
+  </div>
+  <div class="email-content">
+    <p style="color: #333; font-size: 20px">{{otpMessage}}</p>
+    <h2 class="otp-code">{{otpCode}}</h2>
+  </div>
+</div>
+</body>
+</html>
