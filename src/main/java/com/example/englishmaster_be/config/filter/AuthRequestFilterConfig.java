@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthRequestFilterConfig extends OncePerRequestFilter {
 
-    JwtHelper jwtHepler;
+    JwtHelper jwtHelper;
 
     UserDetailsService userDetailsService;
 
@@ -55,10 +55,10 @@ public class AuthRequestFilterConfig extends OncePerRequestFilter {
 
                 String jwtToken = headerAuth.substring(prefixHeaderAuth.length()).trim();
 
-                if (!jwtHepler.isValidToken(jwtToken) || invalidTokenService.inValidToken(jwtToken))
+                if (!jwtHelper.isValidToken(jwtToken) || invalidTokenService.inValidToken(jwtToken))
                     throw new CustomException(ErrorEnum.UNAUTHENTICATED);
 
-                String username = jwtHepler.extractUsername(jwtToken);
+                String username = jwtHelper.extractUsername(jwtToken);
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
