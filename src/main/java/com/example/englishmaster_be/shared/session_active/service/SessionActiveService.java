@@ -8,21 +8,19 @@ import com.example.englishmaster_be.domain.user.service.IUserService;
 import com.example.englishmaster_be.model.session_active.SessionActiveEntity;
 import com.example.englishmaster_be.model.user.UserEntity;
 import com.example.englishmaster_be.model.user.UserRepository;
-import com.example.englishmaster_be.util.JwtUtil;
+import com.example.englishmaster_be.helper.JwtHelper;
 import com.example.englishmaster_be.value.JwtValue;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,7 +30,7 @@ public class SessionActiveService implements ISessionActiveService {
 
     JwtValue jwtValue;
 
-    JwtUtil jwtUtil;
+    JwtHelper jwtHelper;
 
     IUserService userService;
 
@@ -76,7 +74,7 @@ public class SessionActiveService implements ISessionActiveService {
     @Override
     public SessionActiveEntity saveSessionActive(UserEntity user, String jwtToken) {
 
-        String tokenHash = jwtUtil.hashToHex(jwtToken);
+        String tokenHash = jwtHelper.hashToHex(jwtToken);
 
         user.setLastLogin(LocalDateTime.now(ZoneId.systemDefault()));
 

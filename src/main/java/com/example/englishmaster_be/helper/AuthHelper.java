@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.util;
+package com.example.englishmaster_be.helper;
 
 import com.example.englishmaster_be.common.constant.InvalidTokenTypeEnum;
 import com.example.englishmaster_be.common.constant.OtpStatusEnum;
@@ -32,9 +32,9 @@ import java.util.List;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
-public class AuthUtil {
+public class AuthHelper {
 
-    JwtUtil jwtUtil;
+    JwtHelper jwtHelper;
 
     PasswordEncoder passwordEncoder;
 
@@ -67,7 +67,7 @@ public class AuthUtil {
 
         sessionActiveRepository.deleteAll(sessionActiveEntityList);
 
-        String jwtToken = jwtUtil.generateToken(user);
+        String jwtToken = jwtHelper.generateToken(user);
 
         SessionActiveEntity sessionActive = sessionActiveService.saveSessionActive(user, jwtToken);
 

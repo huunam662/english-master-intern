@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.util;
+package com.example.englishmaster_be.helper;
 
 import com.example.englishmaster_be.common.constant.InvalidTokenTypeEnum;
 import com.example.englishmaster_be.model.session_active.SessionActiveEntity;
@@ -20,10 +20,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.security.MessageDigest;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -37,7 +35,7 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class JwtUtil {
+public class JwtHelper {
 
     JwtValue jwtValue;
 

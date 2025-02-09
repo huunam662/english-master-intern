@@ -1,11 +1,11 @@
-package com.example.englishmaster_be.helper;
+package com.example.englishmaster_be.util;
 
 import com.example.englishmaster_be.common.constant.sort.SortByTypeFieldsEnum;
 import com.example.englishmaster_be.model.type.QTypeEntity;
 import com.querydsl.core.types.OrderSpecifier;
 import org.springframework.data.domain.Sort;
 
-public class TypeHelper {
+public class TypeUtil {
 
     public static OrderSpecifier<?> buildTypeOrderSpecifier(SortByTypeFieldsEnum sortBy, Sort.Direction sortDirection) {
 

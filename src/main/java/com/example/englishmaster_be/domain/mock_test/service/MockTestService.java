@@ -7,15 +7,12 @@ import com.example.englishmaster_be.domain.answer.service.IAnswerService;
 import com.example.englishmaster_be.domain.mock_test.dto.request.*;
 import com.example.englishmaster_be.domain.mock_test.dto.response.*;
 import com.example.englishmaster_be.domain.part.dto.response.PartQuestionResponse;
-import com.example.englishmaster_be.domain.part.dto.response.PartResponse;
-import com.example.englishmaster_be.domain.part.service.IPartService;
 import com.example.englishmaster_be.domain.question.dto.response.QuestionMockTestResponse;
 import com.example.englishmaster_be.domain.question.service.IQuestionService;
 import com.example.englishmaster_be.domain.topic.service.ITopicService;
 import com.example.englishmaster_be.domain.user.service.IUserService;
-import com.example.englishmaster_be.helper.MockTestHelper;
-import com.example.englishmaster_be.helper.PartHelper;
-import com.example.englishmaster_be.helper.QuestionHelper;
+import com.example.englishmaster_be.util.MockTestUtil;
+import com.example.englishmaster_be.util.PartUtil;
 import com.example.englishmaster_be.mapper.MockTestMapper;
 import com.example.englishmaster_be.exception.template.BadRequestException;
 import com.example.englishmaster_be.mapper.PartMapper;
@@ -23,18 +20,15 @@ import com.example.englishmaster_be.exception.template.CustomException;
 import com.example.englishmaster_be.model.answer.AnswerEntity;
 import com.example.englishmaster_be.model.mock_test.MockTestQueryFactory;
 import com.example.englishmaster_be.model.mock_test_detail.MockTestDetailEntity;
-import com.example.englishmaster_be.model.mock_test_detail.MockTestDetailRepository;
 import com.example.englishmaster_be.model.mock_test.MockTestEntity;
 import com.example.englishmaster_be.model.mock_test.MockTestRepository;
 import com.example.englishmaster_be.model.mock_test.QMockTestEntity;
 import com.example.englishmaster_be.model.mock_test_result.MockTestResultEntity;
 import com.example.englishmaster_be.model.part.PartEntity;
-import com.example.englishmaster_be.model.part.PartQueryFactory;
 import com.example.englishmaster_be.model.question.QuestionEntity;
-import com.example.englishmaster_be.model.mock_test_result.MockTestResultRepository;
 import com.example.englishmaster_be.model.topic.TopicEntity;
 import com.example.englishmaster_be.model.user.UserEntity;
-import com.example.englishmaster_be.util.MockTestUtil;
+import com.example.englishmaster_be.helper.MockTestHelper;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -46,7 +40,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.internal.constraintvalidators.bv.money.CurrencyValidatorForMonetaryAmount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
@@ -54,7 +47,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import com.example.englishmaster_be.common.constant.error.ErrorEnum;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +60,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -84,7 +75,7 @@ public class MockTestService implements IMockTestService {
 
     ResourceLoader resourceLoader;
 
-    MockTestUtil mockTestUtil;
+    MockTestHelper mockTestHelper;
 
     MockTestRepository mockTestRepository;
 
@@ -150,13 +141,13 @@ public class MockTestService implements IMockTestService {
 
         MockTestTotalCountResponse mockTestTotalCountResponse = MockTestTotalCountResponse.builder()
                 .totalQuestionsChildMockTest(
-                        MockTestHelper.totalQuestionOfPartRequestList(mockTestRequest.getParts())
+                        MockTestUtil.totalQuestionOfPartRequestList(mockTestRequest.getParts())
                 )
                 .build();
 
         for (MockTestPartRequest mockTestPartRequest : mockTestPartRequestList) {
 
-            MockTestResultEntity mockTestResultEntity = mockTestUtil.saveMockTestResultEntity(
+            MockTestResultEntity mockTestResultEntity = mockTestHelper.saveMockTestResultEntity(
                     mockTestPartRequest,
                     mockTestTotalCountResponse,
                     mockTestEntity,
@@ -179,7 +170,7 @@ public class MockTestService implements IMockTestService {
 
                 for (MockTestQuestionChildrenRequest mockTestQuestionChildrenRequest : mockTestQuestionChildrenRequestList) {
 
-                    mockTestUtil.addMockTestDetailEntity(
+                    mockTestHelper.addMockTestDetailEntity(
                             mockTestResultEntity,
                             userCurrent,
                             mockTestQuestionChildrenRequest,
@@ -261,11 +252,11 @@ public class MockTestService implements IMockTestService {
 
         if(mockTestResultEntityList == null) throw new NoSuchElementException("Mock test result is not found or empty !");
 
-        List<PartEntity> partEntityList = PartHelper.getAllPartsFrom(mockTestResultEntityList);
+        List<PartEntity> partEntityList = PartUtil.getAllPartsFrom(mockTestResultEntityList);
 
         if(partEntityList == null) throw new NoSuchElementException("Mock test is not exists parts !");
 
-        partEntityList = PartHelper.filterAllQuestionsForPartsAndTopic(partEntityList, topicEntity);
+        partEntityList = PartUtil.filterAllQuestionsForPartsAndTopic(partEntityList, topicEntity);
 
         return PartMapper.INSTANCE.toPartQuestionResponseList(partEntityList, topicEntity);
     }
@@ -351,7 +342,7 @@ public class MockTestService implements IMockTestService {
         long totalPages = (long) Math.ceil((double) totalElements / filterResponse.getPageSize());
         filterResponse.setTotalPages(totalPages);
 
-        OrderSpecifier<?> orderSpecifier = MockTestHelper.buildMockTestOrderSpecifier(
+        OrderSpecifier<?> orderSpecifier = MockTestUtil.buildMockTestOrderSpecifier(
                 SortByMockTestFieldsEnum.fromValue(filterRequest.getSortBy()),
                 filterRequest.getSortDirection()
         );

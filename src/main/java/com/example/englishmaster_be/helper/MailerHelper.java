@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.util;
+package com.example.englishmaster_be.helper;
 
 import com.example.englishmaster_be.model.user.UserEntity;
 import com.example.englishmaster_be.value.LinkValue;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
-public class MailerUtil {
+public class MailerHelper {
 
 
     JavaMailSender mailSender;

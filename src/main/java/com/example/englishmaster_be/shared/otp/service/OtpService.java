@@ -3,7 +3,7 @@ package com.example.englishmaster_be.shared.otp.service;
 import com.example.englishmaster_be.common.constant.OtpStatusEnum;
 import com.example.englishmaster_be.domain.user.service.IUserService;
 import com.example.englishmaster_be.exception.template.BadRequestException;
-import com.example.englishmaster_be.helper.OtpHelper;
+import com.example.englishmaster_be.util.OtpUtil;
 import com.example.englishmaster_be.model.otp.OtpEntity;
 import com.example.englishmaster_be.model.otp.OtpRepository;
 import com.example.englishmaster_be.model.user.UserEntity;
@@ -54,7 +54,7 @@ public class OtpService implements IOtpService {
 
         int codeLength = 6;
 
-        String otpCode = OtpHelper.generateOtpCode(codeLength);
+        String otpCode = OtpUtil.generateOtpCode(codeLength);
 
         OtpEntity otp = OtpEntity.builder()
                 .otp(otpCode)

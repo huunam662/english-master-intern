@@ -29,7 +29,7 @@ import com.example.englishmaster_be.model.answer.AnswerRepository;
 import com.example.englishmaster_be.model.content.ContentRepository;
 import com.example.englishmaster_be.model.part.PartRepository;
 import com.example.englishmaster_be.model.question.QuestionRepository;
-import com.example.englishmaster_be.util.FileUtil;
+import com.example.englishmaster_be.helper.FileHelper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -51,7 +51,7 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class QuestionService implements IQuestionService {
 
-    FileUtil fileUtil;
+    FileHelper fileHelper;
 
     PartQueryFactory partQueryFactory;
 
@@ -148,7 +148,7 @@ public class QuestionService implements IQuestionService {
 
                 ContentEntity content = ContentEntity.builder()
                         .contentData(questionRequest.getContentImage())
-                        .contentType(fileUtil.mimeTypeFile(questionRequest.getContentImage()))
+                        .contentType(fileHelper.mimeTypeFile(questionRequest.getContentImage()))
                         .userCreate(user)
                         .userUpdate(user)
                         .createAt(LocalDateTime.now())
@@ -176,7 +176,7 @@ public class QuestionService implements IQuestionService {
 
                 ContentEntity content = ContentEntity.builder()
                         .contentData(questionRequest.getContentAudio())
-                        .contentType(fileUtil.mimeTypeFile(questionRequest.getContentAudio()))
+                        .contentType(fileHelper.mimeTypeFile(questionRequest.getContentAudio()))
                         .userCreate(user)
                         .userUpdate(user)
                         .createAt(LocalDateTime.now())
@@ -207,7 +207,7 @@ public class QuestionService implements IQuestionService {
             if (questionRequest.getContentImage() != null && !questionRequest.getContentImage().isEmpty()) {
                 ContentEntity content = ContentEntity.builder()
                         .contentType(questionRequest.getContentImage())
-                        .contentData(fileUtil.mimeTypeFile(questionRequest.getContentImage()))
+                        .contentData(fileHelper.mimeTypeFile(questionRequest.getContentImage()))
                         .userCreate(user)
                         .userUpdate(user)
                         .createAt(LocalDateTime.now())

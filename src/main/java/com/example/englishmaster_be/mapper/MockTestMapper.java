@@ -2,7 +2,7 @@ package com.example.englishmaster_be.mapper;
 
 import com.example.englishmaster_be.domain.mock_test.dto.request.MockTestRequest;
 import com.example.englishmaster_be.domain.mock_test.dto.response.*;
-import com.example.englishmaster_be.helper.QuestionHelper;
+import com.example.englishmaster_be.util.QuestionUtil;
 import com.example.englishmaster_be.model.answer.AnswerEntity;
 import com.example.englishmaster_be.model.mock_test.MockTestEntity;
 import com.example.englishmaster_be.model.mock_test_result.MockTestResultEntity;
@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-@Mapper(builder = @Builder(disableBuilder = true), imports = {QuestionHelper.class})
+@Mapper(builder = @Builder(disableBuilder = true), imports = {QuestionUtil.class})
 public interface MockTestMapper {
 
     MockTestMapper INSTANCE = Mappers.getMapper(MockTestMapper.class);
@@ -65,7 +65,7 @@ public interface MockTestMapper {
     @Mapping(target = "answerChoice", expression = "java(AnswerMapper.INSTANCE.toAnswerResponse(answerChoice))")
     MockTestQuestionChildResponse toMockTestQuestionChildResponse(QuestionEntity questionChildren, AnswerEntity answerChoice);
 
-    @Mapping(target = "numberOfQuestionsChild", expression = "java(QuestionHelper.totalQuestionChildOfParent(questionParent))")
+    @Mapping(target = "numberOfQuestionsChild", expression = "java(QuestionUtil.totalQuestionChildOfParent(questionParent))")
     MockTestQuestionParentResponse toMockTestQuestionParentResponse(QuestionEntity questionParent);
 
     @Mapping(target = "mockTestId", source = "mockTest.mockTestId")

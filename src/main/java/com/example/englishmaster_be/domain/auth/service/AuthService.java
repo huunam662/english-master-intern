@@ -14,8 +14,8 @@ import com.example.englishmaster_be.model.user.UserRepository;
 import com.example.englishmaster_be.shared.invalid_token.service.IInvalidTokenService;
 import com.example.englishmaster_be.shared.otp.service.IOtpService;
 import com.example.englishmaster_be.shared.session_active.service.ISessionActiveService;
-import com.example.englishmaster_be.util.AuthUtil;
-import com.example.englishmaster_be.util.JwtUtil;
+import com.example.englishmaster_be.helper.AuthHelper;
+import com.example.englishmaster_be.helper.JwtHelper;
 import com.example.englishmaster_be.domain.auth.dto.response.UserAuthResponse;
 import com.example.englishmaster_be.domain.auth.dto.response.UserConfirmTokenResponse;
 import com.example.englishmaster_be.exception.template.BadRequestException;
@@ -24,7 +24,7 @@ import com.example.englishmaster_be.mapper.ConfirmationTokenMapper;
 import com.example.englishmaster_be.mapper.UserMapper;
 import com.example.englishmaster_be.model.otp.OtpEntity;
 import com.example.englishmaster_be.model.user.UserEntity;
-import com.example.englishmaster_be.util.MailerUtil;
+import com.example.englishmaster_be.helper.MailerHelper;
 import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -50,11 +50,11 @@ import java.util.UUID;
 public class AuthService implements IAuthService {
 
 
-    JwtUtil jwtUtil;
+    JwtHelper jwtHelper;
 
-    MailerUtil mailerUtil;
+    MailerHelper mailerHelper;
 
-    AuthUtil authUtil;
+    AuthHelper authHelper;
 
     AuthenticationManager authenticationManager;
 
@@ -90,7 +90,7 @@ public class AuthService implements IAuthService {
 
         UserEntity user = userService.getUserByEmail(userDetails.getUsername());
 
-        String jwtToken = jwtUtil.generateToken(user);
+        String jwtToken = jwtHelper.generateToken(user);
 
         SessionActiveEntity sessionActive = sessionActiveService.saveSessionActive(user, jwtToken);
 
@@ -122,7 +122,7 @@ public class AuthService implements IAuthService {
         UserConfirmTokenResponse confirmationTokenResponse = this.createConfirmationToken(userRegister);
 
         try {
-            mailerUtil.sendConfirmationEmail(userRegister.getEmail(), confirmationTokenResponse.getCode());
+            mailerHelper.sendConfirmationEmail(userRegister.getEmail(), confirmationTokenResponse.getCode());
         } catch (IOException | MessagingException e) {
             throw new CustomException(ErrorEnum.SEND_EMAIL_FAILURE);
         }
@@ -186,7 +186,7 @@ public class AuthService implements IAuthService {
 
         OtpEntity otpEntity = otpService.generateOtp(email);
 
-        mailerUtil.sendOtpToEmail(email, otpEntity.getOtp());
+        mailerHelper.sendOtpToEmail(email, otpEntity.getOtp());
 
     }
 
@@ -213,7 +213,7 @@ public class AuthService implements IAuthService {
 
         OtpEntity otpEntity = otpService.getByOtp(changePasswordRequest.getOtpCode());
 
-        return authUtil.saveNewPassword(otpEntity.getUser(), changePasswordRequest.getNewPassword(), changePasswordRequest.getOtpCode());
+        return authHelper.saveNewPassword(otpEntity.getUser(), changePasswordRequest.getNewPassword(), changePasswordRequest.getOtpCode());
     }
 
     @Transactional
@@ -225,7 +225,7 @@ public class AuthService implements IAuthService {
         if (!passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword()))
             throw new BadRequestException("Mật khẩu cũ không hợp lệ");
 
-        return authUtil.saveNewPassword(user, changePasswordRequest.getNewPassword(), changePasswordRequest.getOtpCode());
+        return authHelper.saveNewPassword(user, changePasswordRequest.getNewPassword(), changePasswordRequest.getOtpCode());
     }
 
 
@@ -242,7 +242,7 @@ public class AuthService implements IAuthService {
 
         sessionActiveService.verifyExpiration(sessionActive);
 
-        String newToken = jwtUtil.generateToken(sessionActive.getUser());
+        String newToken = jwtHelper.generateToken(sessionActive.getUser());
 
         SessionActiveEntity sessionActiveNew = sessionActiveService.saveSessionActive(sessionActive.getUser(), newToken);
 
@@ -257,7 +257,7 @@ public class AuthService implements IAuthService {
     @Override
     public void logoutOf(UserLogoutRequest userLogoutRequest) {
 
-        authUtil.logoutUser();
+        authHelper.logoutUser();
 
         SessionActiveEntity sessionActive = sessionActiveService.getByCode(userLogoutRequest.getRefreshToken());
 

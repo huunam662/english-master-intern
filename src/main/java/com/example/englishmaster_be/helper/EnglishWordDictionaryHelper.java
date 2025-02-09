@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.util;
+package com.example.englishmaster_be.helper;
 
 import com.example.englishmaster_be.value.DictionaryValue;
 import jakarta.annotation.PostConstruct;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class EnglishWordDictionaryUtil {
+public class EnglishWordDictionaryHelper {
 
     DictionaryValue dictionaryValue;
 

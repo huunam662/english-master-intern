@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.helper;
+package com.example.englishmaster_be.util;
 
 import com.example.englishmaster_be.common.constant.excel.ExcelQuestionConstant;
 import com.example.englishmaster_be.common.constant.excel.ExcelTopicConstant;
@@ -9,17 +9,14 @@ import com.example.englishmaster_be.exception.template.BadRequestException;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ExcelHelper {
+public class ExcelUtil {
 
     public static boolean isExcelFile(MultipartFile file) {
 

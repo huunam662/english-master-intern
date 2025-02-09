@@ -1,8 +1,8 @@
-package com.example.englishmaster_be.helper;
+package com.example.englishmaster_be.util;
 
 import java.util.Random;
 
-public class OtpHelper {
+public class OtpUtil {
 
     public static String generateOtpCode(int codeLength){
 

@@ -17,7 +17,7 @@ import com.example.englishmaster_be.model.question.QQuestionEntity;
 import com.example.englishmaster_be.model.topic.TopicEntity;
 import com.example.englishmaster_be.model.user.UserEntity;
 import com.example.englishmaster_be.domain.user.service.IUserService;
-import com.example.englishmaster_be.util.FileUtil;
+import com.example.englishmaster_be.helper.FileHelper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PartService implements IPartService {
 
-    FileUtil fileUtil;
+    FileHelper fileHelper;
 
     JPAQueryFactory jpaQueryFactory;
 
@@ -87,7 +87,7 @@ public class PartService implements IPartService {
                 );
 
             partEntity.setContentData(partRequest.getFile());
-            partEntity.setContentType(fileUtil.mimeTypeFile(partRequest.getFile()));
+            partEntity.setContentType(fileHelper.mimeTypeFile(partRequest.getFile()));
         }
 
         PartMapper.INSTANCE.flowToPartEntity(partRequest, partEntity);

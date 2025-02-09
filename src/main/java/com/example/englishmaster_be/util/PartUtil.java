@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.helper;
+package com.example.englishmaster_be.util;
 
 import com.example.englishmaster_be.domain.mock_test.dto.request.MockTestPartRequest;
 import com.example.englishmaster_be.exception.template.BadRequestException;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PartHelper {
+public class PartUtil {
 
     public static List<UUID> convertToPartUUID(List<MockTestPartRequest> mockTestPartRequestList){
 
@@ -29,7 +29,7 @@ public class PartHelper {
 
         if(partEntity.getQuestions() == null) return 0;
 
-        return QuestionHelper.totalScoreQuestionsParent(partEntity.getQuestions(), topicEntity);
+        return QuestionUtil.totalScoreQuestionsParent(partEntity.getQuestions(), topicEntity);
     }
 
     public static List<PartEntity> getAllPartsFrom(List<MockTestResultEntity> mockTestResultEntityList){

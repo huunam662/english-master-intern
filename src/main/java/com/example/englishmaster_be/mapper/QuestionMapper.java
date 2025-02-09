@@ -7,9 +7,8 @@ import com.example.englishmaster_be.domain.question.dto.request.QuestionRequest;
 import com.example.englishmaster_be.domain.question.dto.response.QuestionMatchingResponse;
 import com.example.englishmaster_be.domain.question.dto.response.QuestionResponse;
 import com.example.englishmaster_be.domain.question.dto.response.QuestionPartResponse;
-import com.example.englishmaster_be.helper.AnswerHelper;
-import com.example.englishmaster_be.helper.QuestionHelper;
-import com.example.englishmaster_be.model.answer.AnswerEntity;
+import com.example.englishmaster_be.util.AnswerUtil;
+import com.example.englishmaster_be.util.QuestionUtil;
 import com.example.englishmaster_be.model.part.PartEntity;
 import com.example.englishmaster_be.model.question.QuestionEntity;
 import com.example.englishmaster_be.model.topic.TopicEntity;
@@ -17,10 +16,8 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(builder = @Builder(disableBuilder = true))
 public interface QuestionMapper {
@@ -77,7 +74,7 @@ public interface QuestionMapper {
 
         if(questionEntityList == null) return null;
 
-        questionEntityList = QuestionHelper.shuffleQuestionsAndAnswers(questionEntityList, partEntity);
+        questionEntityList = QuestionUtil.shuffleQuestionsAndAnswers(questionEntityList, partEntity);
 
         List<String> partTypesWithoutAnswerCorrectId = List.of("Words Fill Completion", "Words Matching");
 
@@ -95,7 +92,7 @@ public interface QuestionMapper {
                     if(questionResponse == null) return null;
 
                     if(withAnswerCorrectId)
-                        questionResponse.setAnswerCorrectId(AnswerHelper.getIdCorrectAnswer(questionEntity.getAnswers()));
+                        questionResponse.setAnswerCorrectId(AnswerUtil.getIdCorrectAnswer(questionEntity.getAnswers()));
 
                     if(partTypeIsWordsMatching){
 
@@ -171,7 +168,7 @@ public interface QuestionMapper {
 
         response.getPart().setTotalQuestion(
                 questionParents != null
-                        ? QuestionHelper.totalQuestionChildOfParents(questionParents, topicEntity)
+                        ? QuestionUtil.totalQuestionChildOfParents(questionParents, topicEntity)
                         : 0
         );
     }

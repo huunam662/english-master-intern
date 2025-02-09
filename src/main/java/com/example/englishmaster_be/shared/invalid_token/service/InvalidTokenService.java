@@ -2,8 +2,7 @@ package com.example.englishmaster_be.shared.invalid_token.service;
 
 import com.example.englishmaster_be.common.constant.InvalidTokenTypeEnum;
 import com.example.englishmaster_be.model.session_active.SessionActiveEntity;
-import com.example.englishmaster_be.shared.session_active.service.ISessionActiveService;
-import com.example.englishmaster_be.util.JwtUtil;
+import com.example.englishmaster_be.helper.JwtHelper;
 import com.example.englishmaster_be.model.invalid_token.InvalidTokenEntity;
 import com.example.englishmaster_be.model.invalid_token.InvalidTokenRepository;
 import com.example.englishmaster_be.value.JwtValue;
@@ -21,7 +20,6 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
@@ -30,7 +28,7 @@ public class InvalidTokenService implements IInvalidTokenService {
 
     JwtValue jwtValue;
 
-    JwtUtil jwtUtil;
+    JwtHelper jwtHelper;
 
     InvalidTokenRepository invalidTokenRepository;
 
@@ -38,7 +36,7 @@ public class InvalidTokenService implements IInvalidTokenService {
     @Override
     public boolean inValidToken(String token) {
 
-        String tokenHash = jwtUtil.hashToHex(token);
+        String tokenHash = jwtHelper.hashToHex(token);
 
         Optional<InvalidTokenEntity> tokenExpire = invalidTokenRepository.findById(tokenHash);
 

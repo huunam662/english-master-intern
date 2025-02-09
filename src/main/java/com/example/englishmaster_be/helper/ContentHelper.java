@@ -1,11 +1,7 @@
-package com.example.englishmaster_be.util;
+package com.example.englishmaster_be.helper;
 
-import com.example.englishmaster_be.domain.content.service.ContentService;
-import com.example.englishmaster_be.domain.content.service.IContentService;
-import com.example.englishmaster_be.domain.user.service.IUserService;
 import com.example.englishmaster_be.model.content.ContentEntity;
 import com.example.englishmaster_be.model.content.QContentEntity;
-import com.example.englishmaster_be.model.question.QuestionEntity;
 import com.example.englishmaster_be.model.topic.TopicEntity;
 import com.example.englishmaster_be.model.user.UserEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,24 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
-public class ContentUtil {
+public class ContentHelper {
 
     JPAQueryFactory jpaQueryFactory;
 
-    FileUtil fileUtil;
+    FileHelper fileHelper;
 
     public ContentEntity makeContentEntity(UserEntity byUser, TopicEntity refTopic, String contentData) {
 
         ContentEntity contentEntity = jpaQueryFactory.selectFrom(QContentEntity.contentEntity)
                 .where(
                         QContentEntity.contentEntity.contentData.eq(contentData)
-                                .and(QContentEntity.contentEntity.contentType.eq(fileUtil.mimeTypeFile(contentData)))
+                                .and(QContentEntity.contentEntity.contentType.eq(fileHelper.mimeTypeFile(contentData)))
                 )
                 .fetchOne();
 
@@ -42,7 +37,7 @@ public class ContentUtil {
         return ContentEntity.builder()
                 .contentId(UUID.randomUUID())
                 .contentData(contentData)
-                .contentType(fileUtil.mimeTypeFile(contentData))
+                .contentType(fileHelper.mimeTypeFile(contentData))
                 .userCreate(byUser)
                 .userUpdate(byUser)
                 .topic(refTopic)

@@ -1,7 +1,6 @@
-package com.example.englishmaster_be.helper;
+package com.example.englishmaster_be.util;
 
 import com.example.englishmaster_be.common.constant.QuestionTypeEnum;
-import com.example.englishmaster_be.domain.mock_test.dto.request.MockTestPartRequest;
 import com.example.englishmaster_be.model.answer.AnswerEntity;
 import com.example.englishmaster_be.model.part.PartEntity;
 import com.example.englishmaster_be.model.question.QuestionEntity;
@@ -12,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class QuestionHelper {
+public class QuestionUtil {
 
     public static List<QuestionEntity> shuffleQuestionsAndAnswers(List<QuestionEntity> questionParentsList, PartEntity partEntity) {
 

@@ -1,11 +1,11 @@
-package com.example.englishmaster_be.helper;
+package com.example.englishmaster_be.util;
 
 import com.example.englishmaster_be.model.answer.AnswerEntity;
 
 import java.util.List;
 import java.util.UUID;
 
-public class AnswerHelper {
+public class AnswerUtil {
 
     public static UUID getIdCorrectAnswer(List<AnswerEntity> answers) {
 

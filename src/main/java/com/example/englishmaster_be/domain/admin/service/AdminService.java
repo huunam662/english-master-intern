@@ -18,7 +18,7 @@ import com.example.englishmaster_be.model.user.QUserEntity;
 import com.example.englishmaster_be.model.user.UserEntity;
 import com.example.englishmaster_be.model.user.UserRepository;
 import com.example.englishmaster_be.domain.admin.dto.response.CountMockTestTopicResponse;
-import com.example.englishmaster_be.util.MailerUtil;
+import com.example.englishmaster_be.helper.MailerHelper;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -45,7 +45,7 @@ public class AdminService implements IAdminService {
 
     JPAQueryFactory queryFactory;
 
-    MailerUtil mailerUtil;
+    MailerHelper mailerHelper;
 
     IUserService userService;
 
@@ -203,7 +203,7 @@ public class AdminService implements IAdminService {
         List<UserEntity> inactiveUsers = query.fetch();
 
         for (UserEntity user : inactiveUsers)
-            mailerUtil.sendNotificationEmail(user);
+            mailerHelper.sendNotificationEmail(user);
 
         return inactiveUsers;
     }
@@ -216,7 +216,7 @@ public class AdminService implements IAdminService {
 
         for (UserEntity user : inactiveUsers) {
             try {
-                mailerUtil.sendMail(user.getEmail());
+                mailerHelper.sendMail(user.getEmail());
             }catch (MessagingException e){
                 System.out.println("Failed to send email to: " + user.getEmail());
             }

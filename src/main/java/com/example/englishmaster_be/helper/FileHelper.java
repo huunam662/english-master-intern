@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.util;
+package com.example.englishmaster_be.helper;
 
 import com.example.englishmaster_be.value.LinkValue;
 import lombok.AccessLevel;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class FileUtil {
+public class FileHelper {
 
     LinkValue linkValue;
 
