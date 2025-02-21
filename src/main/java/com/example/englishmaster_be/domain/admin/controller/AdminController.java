@@ -8,6 +8,8 @@ import com.example.englishmaster_be.model.user.UserEntity;
 import com.example.englishmaster_be.mapper.UserMapper;
 import com.example.englishmaster_be.domain.admin.dto.response.CountMockTestTopicResponse;
 import com.example.englishmaster_be.common.annotation.DefaultMessage;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -31,6 +33,10 @@ public class AdminController {
     IAdminService adminService;
 
 
+    @Operation(
+            summary = "Lấy thông tin sản phẩm",
+            description = "API này dùng để lấy thông tin chi tiết của một sản phẩm theo ID."
+    )
     @GetMapping(value = "/getAllUser")
     @PreAuthorize("hasRole('ADMIN')")
     @DefaultMessage("List UserEntity successfully")

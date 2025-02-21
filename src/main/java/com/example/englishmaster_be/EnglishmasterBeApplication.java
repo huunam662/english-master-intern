@@ -15,13 +15,15 @@ public class EnglishmasterBeApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication application = new SpringApplication(EnglishmasterBeApplication.class);
+//        SpringApplication application = new SpringApplication(EnglishmasterBeApplication.class);
+//
+//        ConfigurableEnvironment environment  = new StandardEnvironment();
+//        environment.setActiveProfiles(local);
+//        application.setEnvironment(environment);
+//
+//        application.run(args);
 
-        ConfigurableEnvironment environment  = new StandardEnvironment();
-        environment.setActiveProfiles(local);
-        application.setEnvironment(environment);
-
-        application.run(args);
+        SpringApplication.run(EnglishmasterBeApplication.class, args);
 
     }
 }
