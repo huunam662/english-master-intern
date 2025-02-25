@@ -116,7 +116,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
             filterResponse.withPreviousAndNextPage();
         }
 
-        String messageResponse = getMessage4Response(returnType);
+        String messageResponse = message4Response(returnType);
 
         return ResponseModel.builder()
                 .success(Boolean.TRUE)
@@ -153,15 +153,15 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
         else return HttpStatus.OK;
     }
 
-    private String getMessage4Response(@NonNull MethodParameter returnType){
+    private String message4Response(@NonNull MethodParameter returnType){
 
         Method method = returnType.getMethod();
+
         if(method != null){
 
             DefaultMessage defaultMessage = method.getAnnotation(DefaultMessage.class);
 
-            if(defaultMessage != null)
-                return defaultMessage.value();
+            if(defaultMessage != null) return defaultMessage.value();
         }
 
         String messageResponseHolderContent = MessageResponseHolder.getMessage();
