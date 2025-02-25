@@ -2,7 +2,6 @@ package com.example.englishmaster_be.domain.mock_test.service;
 
 import com.example.englishmaster_be.common.constant.sort.SortByMockTestFieldsEnum;
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
 import com.example.englishmaster_be.domain.answer.service.IAnswerService;
 import com.example.englishmaster_be.domain.mock_test.dto.request.*;
 import com.example.englishmaster_be.domain.mock_test.dto.response.*;
@@ -517,11 +516,6 @@ public class MockTestService implements IMockTestService {
         MockTestEntity mockTest = getMockTestById(mockTestId);
 
         List<MockTestDetailEntity> detailMockTestList = getTop10DetailToCorrect(index, isCorrect, mockTest);
-
-        if (isCorrect)
-            MessageResponseHolder.setMessage("Get top 10 AnswerEntity correct successfully");
-        else
-            MessageResponseHolder.setMessage("Get top 10 AnswerEntity wrong successfully");
 
         return detailMockTestList;
     }

@@ -37,7 +37,7 @@ public class AdminController {
             summary = "Lấy thông tin sản phẩm",
             description = "API này dùng để lấy thông tin chi tiết của một sản phẩm theo ID."
     )
-    @GetMapping(value = "/getAllUser")
+    @GetMapping(path = "/getAllUser")
     @PreAuthorize("hasRole('ADMIN')")
     @DefaultMessage("List UserEntity successfully")
     public FilterResponse<?> getAllUser(

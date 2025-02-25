@@ -1,6 +1,5 @@
 package com.example.englishmaster_be.domain.content.service;
 
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
 import com.example.englishmaster_be.domain.content.dto.request.ContentRequest;
 import com.example.englishmaster_be.domain.upload.dto.request.FileDeleteRequest;
 import com.example.englishmaster_be.domain.upload.service.IUploadService;
@@ -123,8 +122,6 @@ public class ContentService implements IContentService {
     public List<String> getImageCdnLink() {
 
         List<String> listLinkCdn = contentRepository.findAllContentData();
-
-        MessageResponseHolder.setMessage("Found " + listLinkCdn.size() + " links");
 
         return listLinkCdn.stream()
                 .filter(linkCdn -> linkCdn != null && !linkCdn.isEmpty())

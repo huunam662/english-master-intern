@@ -1,6 +1,7 @@
 
-package com.example.englishmaster_be.config.global.response;
+package com.example.englishmaster_be.config.wrapper;
 
+import com.example.englishmaster_be.common.annotation.DefaultMessage;
 import com.example.englishmaster_be.common.dto.response.ExceptionResponseModel;
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
 import com.example.englishmaster_be.common.dto.response.ResponseModel;
@@ -12,24 +13,21 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.net.URLConnection;
+import java.lang.reflect.Method;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class GlobalResponseConfig implements ResponseBodyAdvice<Object> {
+public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
 
     HttpServletRequest httpServletRequest;
 
@@ -91,7 +89,7 @@ public class GlobalResponseConfig implements ResponseBodyAdvice<Object> {
             return exceptionResponseModel;
         }
 
-        response.setStatusCode(HttpStatus.OK);
+        HttpStatus statusResponse = status4Response(request, returnType);
 
         if(body instanceof ResourceResponse resourceResponse) {
 
@@ -118,13 +116,59 @@ public class GlobalResponseConfig implements ResponseBodyAdvice<Object> {
             filterResponse.withPreviousAndNextPage();
         }
 
+        String messageResponse = getMessage4Response(returnType);
+
         return ResponseModel.builder()
                 .success(Boolean.TRUE)
-                .status(HttpStatus.OK)
-                .code(HttpStatus.OK.value())
-                .message(MessageResponseHolder.getMessage())
+                .status(statusResponse)
+                .code(statusResponse.value())
+                .message(messageResponse)
                 .path(request.getURI().getPath())
                 .responseData(body)
                 .build();
+    }
+
+
+    private HttpStatus status4Response(
+            @NonNull ServerHttpRequest request,
+            @NonNull MethodParameter returnType
+    ) {
+
+        Method method = returnType.getMethod();
+
+        if(method != null){
+            ResponseStatus responseStatusAnnotation = method.getAnnotation(ResponseStatus.class);
+            if(responseStatusAnnotation != null)
+                return responseStatusAnnotation.value();
+        }
+
+        HttpMethod httpMethod = request.getMethod();
+
+        if(httpMethod.equals(HttpMethod.POST))
+            return HttpStatus.CREATED;
+        else if(httpMethod.equals(HttpMethod.PUT) || httpMethod.equals(HttpMethod.PATCH))
+            return HttpStatus.ACCEPTED;
+        else if(httpMethod.equals(HttpMethod.DELETE))
+            return HttpStatus.NO_CONTENT;
+        else return HttpStatus.OK;
+    }
+
+    private String getMessage4Response(@NonNull MethodParameter returnType){
+
+        Method method = returnType.getMethod();
+        if(method != null){
+
+            DefaultMessage defaultMessage = method.getAnnotation(DefaultMessage.class);
+
+            if(defaultMessage != null)
+                return defaultMessage.value();
+        }
+
+        String messageResponseHolderContent = MessageResponseHolder.getMessage();
+
+        if(messageResponseHolderContent != null)
+            MessageResponseHolder.clear();
+
+        return messageResponseHolderContent;
     }
 }

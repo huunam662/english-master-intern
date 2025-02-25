@@ -1,7 +1,6 @@
-package com.example.englishmaster_be.config.global.interceptor;
+package com.example.englishmaster_be.config.interceptor;
 
 import com.example.englishmaster_be.common.annotation.DefaultMessage;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Nonnull;
 
 @Component
-public class GlobalInterceptorConfig implements HandlerInterceptor {
+public class InterceptorConfig implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
@@ -25,15 +24,15 @@ public class GlobalInterceptorConfig implements HandlerInterceptor {
 
         System.out.println("-> preHandle in Interceptor");
 
-        if(handler instanceof HandlerMethod handlerMethod) {
-
-            DefaultMessage messageResponse = handlerMethod.getMethodAnnotation(DefaultMessage.class);
-
-            System.out.println("messageResponse: " + messageResponse);
-
-            if(messageResponse != null)
-                MessageResponseHolder.setMessage(messageResponse.value());
-        }
+//        if(handler instanceof HandlerMethod handlerMethod) {
+//
+//            DefaultMessage messageResponse = handlerMethod.getMethodAnnotation(DefaultMessage.class);
+//
+//            System.out.println("messageResponse: " + messageResponse);
+//
+//            if(messageResponse != null)
+//                MessageResponseHolder.setMessage(messageResponse.value());
+//        }
 
         return true;
     }
@@ -62,9 +61,5 @@ public class GlobalInterceptorConfig implements HandlerInterceptor {
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 
         System.out.println("-> afterCompletion in Interceptor");
-
-        MessageResponseHolder.clear();
-
-        System.out.println("-> messageResponse after clear by thread holder: " + MessageResponseHolder.getMessage());
     }
 }

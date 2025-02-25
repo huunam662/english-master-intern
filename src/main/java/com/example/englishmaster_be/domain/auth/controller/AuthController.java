@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -21,11 +22,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthController {
 
-
     IAuthService authService;
 
 
     @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
     @DefaultMessage("Login successfully")
     public UserAuthResponse login(@RequestBody UserLoginRequest loginDTO) {
 
