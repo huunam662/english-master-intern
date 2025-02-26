@@ -88,7 +88,9 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
             return exceptionResponseModel;
         }
 
-        HttpStatus statusResponse = status4Response(request, returnType);
+        Method method = returnType.getMethod();
+
+        HttpStatus statusResponse = status4Response(request, method);
 
         if(body instanceof ResourceResponse resourceResponse) {
 
@@ -115,7 +117,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
             filterResponse.withPreviousAndNextPage();
         }
 
-        String messageResponse = message4Response(returnType);
+        String messageResponse = message4Response(method);
 
         return WrapperApiResponse.builder()
                 .success(Boolean.TRUE)
@@ -130,10 +132,8 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
 
     private HttpStatus status4Response(
             @NonNull ServerHttpRequest request,
-            @NonNull MethodParameter returnType
+            Method method
     ) {
-
-        Method method = returnType.getMethod();
 
         if(method != null){
             ResponseStatus responseStatusAnnotation = method.getAnnotation(ResponseStatus.class);
@@ -152,9 +152,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
         else return HttpStatus.OK;
     }
 
-    private String message4Response(@NonNull MethodParameter returnType){
-
-        Method method = returnType.getMethod();
+    private String message4Response(Method method){
 
         if(method != null){
 
