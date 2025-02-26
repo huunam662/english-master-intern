@@ -1,7 +1,7 @@
 package com.example.englishmaster_be.domain.topic.service;
 
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
+import com.example.englishmaster_be.common.holder.DefaultMessageHolder;
 import com.example.englishmaster_be.common.constant.RoleEnum;
 import com.example.englishmaster_be.domain.answer.service.IAnswerService;
 import com.example.englishmaster_be.domain.content.service.IContentService;
@@ -446,7 +446,7 @@ public class TopicService implements ITopicService {
 
         List<String> listLinkCdn = topicRepository.findAllTopicImages();
 
-        MessageResponseHolder.setMessage("Found " + listLinkCdn.size() + " links");
+        DefaultMessageHolder.setMessage("Found " + listLinkCdn.size() + " links");
 
         return listLinkCdn.stream()
                 .filter(linkCdn -> linkCdn != null && !linkCdn.isEmpty())
@@ -486,7 +486,7 @@ public class TopicService implements ITopicService {
 
         topicRepository.save(topic);
 
-        MessageResponseHolder.setMessage(enable ? "TopicEntity enabled successfully" : "TopicEntity disabled successfully");
+        DefaultMessageHolder.setMessage(enable ? "TopicEntity enabled successfully" : "TopicEntity disabled successfully");
 
     }
 
@@ -652,13 +652,13 @@ public class TopicService implements ITopicService {
             PartEntity part = question.getPart();
 
             if (existPartInTopic(topic, part))
-                MessageResponseHolder.setMessage("PartEntity of QuestionEntity don't have in TopicEntity");
+                DefaultMessageHolder.setMessage("PartEntity of QuestionEntity don't have in TopicEntity");
             else {
                 topic.setUserUpdate(user);
                 topic.setUpdateAt(LocalDateTime.now());
                 topic.getQuestions().add(question);
                 topicRepository.save(topic);
-                MessageResponseHolder.setMessage("Add QuestionEntity to TopicEntity successfully");
+                DefaultMessageHolder.setMessage("Add QuestionEntity to TopicEntity successfully");
             }
         }
     }
@@ -789,13 +789,13 @@ public class TopicService implements ITopicService {
             TopicEntity topic = getTopicById(topicId);
 
             if (existPartInTopic(topic, part))
-                MessageResponseHolder.setMessage("Part of Question haven't in Topic");
+                DefaultMessageHolder.setMessage("Part of Question haven't in Topic");
             else {
                 topic.setUserUpdate(user);
                 topic.setUpdateAt(LocalDateTime.now());
                 topic.getQuestions().add(question);
                 topicRepository.save(topic);
-                MessageResponseHolder.setMessage("Add Question to Topic successfully");
+                DefaultMessageHolder.setMessage("Add Question to Topic successfully");
             }
         }
     }
@@ -917,7 +917,7 @@ public class TopicService implements ITopicService {
 
         if (existPartInTopic(topic, part)){
 
-            MessageResponseHolder.setMessage("Part of Question don't have in Topic");
+            DefaultMessageHolder.setMessage("Part of Question don't have in Topic");
             return QuestionMapper.INSTANCE.toQuestionResponse(question);
         }
         else {
@@ -947,7 +947,7 @@ public class TopicService implements ITopicService {
                 questionResponse.setAnswerCorrectId(answerCorrect.getAnswerId());
             }
 
-            MessageResponseHolder.setMessage("Add QuestionEntity to TopicEntity successfully");
+            DefaultMessageHolder.setMessage("Add QuestionEntity to TopicEntity successfully");
 
             return questionResponse;
         }

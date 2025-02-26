@@ -2,7 +2,7 @@ package com.example.englishmaster_be.domain.admin.service;
 
 import com.example.englishmaster_be.common.constant.RoleEnum;
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
+import com.example.englishmaster_be.common.holder.DefaultMessageHolder;
 import com.example.englishmaster_be.domain.mock_test.service.IMockTestService;
 import com.example.englishmaster_be.domain.pack.service.IPackService;
 import com.example.englishmaster_be.domain.topic.service.ITopicService;
@@ -129,9 +129,9 @@ public class AdminService implements IAdminService {
         userRepository.save(user);
 
         if (enable)
-            MessageResponseHolder.setMessage("Enable account of UserEntity successfully");
+            DefaultMessageHolder.setMessage("Enable account of UserEntity successfully");
         else
-            MessageResponseHolder.setMessage("Disable account of UserEntity successfully");
+            DefaultMessageHolder.setMessage("Disable account of UserEntity successfully");
 
     }
 

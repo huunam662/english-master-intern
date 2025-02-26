@@ -1,7 +1,7 @@
 package com.example.englishmaster_be.domain.feedback.service;
 
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
+import com.example.englishmaster_be.common.holder.DefaultMessageHolder;
 import com.example.englishmaster_be.domain.feedback.dto.request.FeedbackRequest;
 import com.example.englishmaster_be.domain.feedback.dto.request.FeedbackFilterRequest;
 import com.example.englishmaster_be.domain.upload.dto.request.FileDeleteRequest;
@@ -175,9 +175,9 @@ public class FeedbackService implements IFeedbackService {
 
         feedbackRepository.save(feedback);
         
-        if(enable) MessageResponseHolder.setMessage("Enable FeedbackEntity successfully");
+        if(enable) DefaultMessageHolder.setMessage("Enable FeedbackEntity successfully");
         
-        else MessageResponseHolder.setMessage("Disable FeedbackEntity successfully");
+        else DefaultMessageHolder.setMessage("Disable FeedbackEntity successfully");
     }
 
     @Transactional

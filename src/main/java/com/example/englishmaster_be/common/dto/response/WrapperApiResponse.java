@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ResponseModel {
+public class WrapperApiResponse {
 
     Boolean success;
 
@@ -31,5 +31,19 @@ public class ResponseModel {
     @Builder.ObtainVia
     @Setter(AccessLevel.NONE)
     final Long timestamp = System.currentTimeMillis();
+
+
+    @Getter
+    @Setter
+    @SuperBuilder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class ExceptionResponse extends WrapperApiResponse {
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        Object errors;
+
+    }
 
 }

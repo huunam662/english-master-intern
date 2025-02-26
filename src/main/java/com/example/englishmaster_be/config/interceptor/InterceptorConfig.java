@@ -1,11 +1,10 @@
 package com.example.englishmaster_be.config.interceptor;
 
-import com.example.englishmaster_be.common.annotation.DefaultMessage;
+import com.example.englishmaster_be.common.holder.DefaultMessageHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Nonnull;
@@ -31,7 +30,7 @@ public class InterceptorConfig implements HandlerInterceptor {
 //            System.out.println("messageResponse: " + messageResponse);
 //
 //            if(messageResponse != null)
-//                MessageResponseHolder.setMessage(messageResponse.value());
+//                DefaultMessageHolder.setMessage(messageResponse.value());
 //        }
 
         return true;
@@ -61,5 +60,9 @@ public class InterceptorConfig implements HandlerInterceptor {
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 
         System.out.println("-> afterCompletion in Interceptor");
+
+        if(DefaultMessageHolder.getMessage() != null)
+            DefaultMessageHolder.clear();
+
     }
 }

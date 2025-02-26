@@ -1,8 +1,7 @@
 package com.example.englishmaster_be.domain.news.service;
 
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
-import com.example.englishmaster_be.domain.file_storage.dto.response.FileResponse;
+import com.example.englishmaster_be.common.holder.DefaultMessageHolder;
 import com.example.englishmaster_be.domain.upload.dto.request.FileDeleteRequest;
 import com.example.englishmaster_be.domain.upload.service.IUploadService;
 import com.example.englishmaster_be.mapper.NewsMapper;
@@ -157,8 +156,8 @@ public class NewsService implements INewsService {
 
         news.setEnable(enable);
 
-        if(enable) MessageResponseHolder.setMessage("Enable news successfully");
-        else MessageResponseHolder.setMessage("Disable news successfully");
+        if(enable) DefaultMessageHolder.setMessage("Enable news successfully");
+        else DefaultMessageHolder.setMessage("Disable news successfully");
 
         newsRepository.save(news);
     }

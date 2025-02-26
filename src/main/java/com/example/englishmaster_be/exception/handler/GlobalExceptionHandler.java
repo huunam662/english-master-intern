@@ -1,11 +1,11 @@
 package com.example.englishmaster_be.exception.handler;
 
 import com.example.englishmaster_be.common.constant.error.ErrorEnum;
+import com.example.englishmaster_be.common.dto.response.WrapperApiResponse;
 import com.example.englishmaster_be.exception.template.BadRequestException;
 import com.example.englishmaster_be.exception.template.CustomException;
 import com.example.englishmaster_be.exception.template.RefreshTokenException;
 import com.example.englishmaster_be.exception.template.ResourceNotFoundException;
-import com.example.englishmaster_be.common.dto.response.ExceptionResponseModel;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.mail.MessagingException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,11 +32,11 @@ public class  GlobalExceptionHandler {
 
 
     @ExceptionHandler(CustomException.class)
-    public ExceptionResponseModel handleCustomException(CustomException e) {
+    public WrapperApiResponse.ExceptionResponse handleCustomException(CustomException e) {
 
         ErrorEnum error = e.getError();
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(error.getStatusCode())
                 .code(error.getStatusCode().value())
                 .message(error.getMessage())
@@ -47,14 +47,14 @@ public class  GlobalExceptionHandler {
             ResourceNotFoundException.class,
             NoSuchElementException.class
     })
-    public ExceptionResponseModel handlingResourceNotFoundException(ResourceNotFoundException ignored){
+    public WrapperApiResponse.ExceptionResponse handlingResourceNotFoundException(ResourceNotFoundException ignored){
 
         String message = "Resource not found";
 
         if(ignored.getMessage() != null || ignored.getMessage().isEmpty())
             message = ignored.getMessage();
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.NOT_FOUND)
                 .code(HttpStatus.NOT_FOUND.value())
                 .message(message)
@@ -63,7 +63,7 @@ public class  GlobalExceptionHandler {
 
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ExceptionResponseModel handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public WrapperApiResponse.ExceptionResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 
         Throwable cause = e.getCause();
 
@@ -83,7 +83,7 @@ public class  GlobalExceptionHandler {
             errors.put("invalidValue", invalidValue);
         }
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message("Invalid request")
@@ -93,7 +93,7 @@ public class  GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ExceptionResponseModel handleValidationExceptions(MethodArgumentNotValidException exception){
+    public WrapperApiResponse.ExceptionResponse handleValidationExceptions(MethodArgumentNotValidException exception){
 
         String message = "Ràng buộc thất bại";
 
@@ -111,7 +111,7 @@ public class  GlobalExceptionHandler {
 
             errors.put(fieldErrors.get(lastIndex).getField(), fieldErrors.get(lastIndex).getDefaultMessage());
         }
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message(message)
@@ -123,11 +123,11 @@ public class  GlobalExceptionHandler {
             UsernameNotFoundException.class,
             BadCredentialsException.class
     })
-    public ExceptionResponseModel handleBadCredentialsException(AuthenticationException ignored) {
+    public WrapperApiResponse.ExceptionResponse handleBadCredentialsException(AuthenticationException ignored) {
 
         String message = "Sai tên tài khoản hoặc mât khẩu";
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .code(HttpStatus.UNAUTHORIZED.value())
                 .message(message)
@@ -135,11 +135,11 @@ public class  GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DisabledException.class)
-    public ExceptionResponseModel handleDisabledException(DisabledException ignored) {
+    public WrapperApiResponse.ExceptionResponse handleDisabledException(DisabledException ignored) {
 
         ErrorEnum error = ErrorEnum.ACCOUNT_DISABLED;
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(error.getStatusCode())
                 .code(error.getStatusCode().value())
                 .message(error.getMessage())
@@ -148,11 +148,11 @@ public class  GlobalExceptionHandler {
 
 
     @ExceptionHandler(HttpClientErrorException.class)
-    public ExceptionResponseModel handleHttpClientErrorException(HttpClientErrorException ignored) {
+    public WrapperApiResponse.ExceptionResponse handleHttpClientErrorException(HttpClientErrorException ignored) {
 
         ErrorEnum error = ErrorEnum.UPLOAD_FILE_FAILURE;
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(error.getStatusCode())
                 .code(error.getStatusCode().value())
                 .message(error.getMessage())
@@ -160,9 +160,9 @@ public class  GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ExceptionResponseModel handleAuthenticationException(AuthenticationException e) {
+    public WrapperApiResponse.ExceptionResponse handleAuthenticationException(AuthenticationException e) {
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .code(HttpStatus.UNAUTHORIZED.value())
                 .message(e.getMessage())
@@ -177,9 +177,9 @@ public class  GlobalExceptionHandler {
             FileAlreadyExistsException.class,
             UnsupportedOperationException.class
     })
-    public ExceptionResponseModel handleIllegalArgumentException(Exception exception) {
+    public WrapperApiResponse.ExceptionResponse handleIllegalArgumentException(Exception exception) {
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message(exception.getMessage())
@@ -187,9 +187,9 @@ public class  GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ExceptionResponseModel handleConflictException(Exception exception) {
+    public WrapperApiResponse.ExceptionResponse handleConflictException(Exception exception) {
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.CONFLICT)
                 .code(HttpStatus.CONFLICT.value())
                 .message(exception.getMessage())
@@ -201,9 +201,9 @@ public class  GlobalExceptionHandler {
             Exception.class,
             ServerException.class
     })
-    public ExceptionResponseModel handleInternalException(Exception exception) {
+    public WrapperApiResponse.ExceptionResponse handleInternalException(Exception exception) {
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(exception.getMessage())
@@ -211,11 +211,11 @@ public class  GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ExceptionResponseModel handleAccessDeniedException(AccessDeniedException ignored) {
+    public WrapperApiResponse.ExceptionResponse handleAccessDeniedException(AccessDeniedException ignored) {
 
         ErrorEnum error = ErrorEnum.UNAUTHORIZED;
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .status(error.getStatusCode())
                 .code(error.getStatusCode().value())
                 .message(error.getMessage())
@@ -223,9 +223,9 @@ public class  GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RefreshTokenException.class)
-    public ExceptionResponseModel handleTokenRefreshException(RefreshTokenException ex) {
+    public WrapperApiResponse.ExceptionResponse handleTokenRefreshException(RefreshTokenException ex) {
 
-        return ExceptionResponseModel.builder()
+        return WrapperApiResponse.ExceptionResponse.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.FORBIDDEN)
                 .code(HttpStatus.FORBIDDEN.value())

@@ -1,6 +1,6 @@
-package com.example.englishmaster_be.common.thread;
+package com.example.englishmaster_be.common.holder;
 
-public class MessageResponseHolder {
+public class DefaultMessageHolder {
 
     public static final ThreadLocal<String> messageHolder = ThreadLocal.withInitial(() -> null);
 

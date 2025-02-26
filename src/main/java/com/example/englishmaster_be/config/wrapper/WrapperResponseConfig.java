@@ -2,10 +2,9 @@
 package com.example.englishmaster_be.config.wrapper;
 
 import com.example.englishmaster_be.common.annotation.DefaultMessage;
-import com.example.englishmaster_be.common.dto.response.ExceptionResponseModel;
 import com.example.englishmaster_be.common.dto.response.FilterResponse;
-import com.example.englishmaster_be.common.dto.response.ResponseModel;
-import com.example.englishmaster_be.common.thread.MessageResponseHolder;
+import com.example.englishmaster_be.common.dto.response.WrapperApiResponse;
+import com.example.englishmaster_be.common.holder.DefaultMessageHolder;
 import com.example.englishmaster_be.domain.file_storage.dto.response.ResourceResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
@@ -57,9 +56,9 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
                 && (
                     declaringClass.getAnnotation(RestController.class) != null
                     ||
-                    returnType.getParameterType().equals(ResponseModel.class)
+                    returnType.getParameterType().equals(WrapperApiResponse.class)
                     ||
-                    returnType.getParameterType().equals(ExceptionResponseModel.class)
+                    returnType.getParameterType().equals(WrapperApiResponse.ExceptionResponse.class)
                 );
     }
 
@@ -79,7 +78,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
         System.out.println(returnType.getMethod());
         System.out.println("----------- beforeBodyWrite -----------");
 
-        if(body instanceof ExceptionResponseModel exceptionResponseModel) {
+        if(body instanceof WrapperApiResponse.ExceptionResponse exceptionResponseModel) {
 
             response.setStatusCode(exceptionResponseModel.getStatus());
 
@@ -102,7 +101,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
             return resourceResponse.getResource();
         }
 
-        if(body instanceof ResponseModel responseModel)
+        if(body instanceof WrapperApiResponse responseModel)
             body = responseModel.getResponseData();
 
         else if(body instanceof ResponseEntity<?> responseEntity)
@@ -118,7 +117,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
 
         String messageResponse = message4Response(returnType);
 
-        return ResponseModel.builder()
+        return WrapperApiResponse.builder()
                 .success(Boolean.TRUE)
                 .status(statusResponse)
                 .code(statusResponse.value())
@@ -164,11 +163,6 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
             if(defaultMessage != null) return defaultMessage.value();
         }
 
-        String messageResponseHolderContent = MessageResponseHolder.getMessage();
-
-        if(messageResponseHolderContent != null)
-            MessageResponseHolder.clear();
-
-        return messageResponseHolderContent;
+        return DefaultMessageHolder.getMessage();
     }
 }

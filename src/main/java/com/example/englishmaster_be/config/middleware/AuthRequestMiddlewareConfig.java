@@ -1,8 +1,8 @@
-package com.example.englishmaster_be.config.filter;
+package com.example.englishmaster_be.config.middleware;
 
 import com.example.englishmaster_be.common.constant.error.ErrorEnum;
+import com.example.englishmaster_be.common.dto.response.WrapperApiResponse;
 import com.example.englishmaster_be.helper.JwtHelper;
-import com.example.englishmaster_be.common.dto.response.ExceptionResponseModel;
 import com.example.englishmaster_be.exception.template.CustomException;
 import com.example.englishmaster_be.shared.invalid_token.service.IInvalidTokenService;
 import io.swagger.v3.core.util.Json;
@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AuthRequestFilterConfig extends OncePerRequestFilter {
+public class AuthRequestMiddlewareConfig extends OncePerRequestFilter {
 
     JwtHelper jwtHelper;
 
@@ -100,7 +100,7 @@ public class AuthRequestFilterConfig extends OncePerRequestFilter {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(
                 Json.pretty(
-                        ExceptionResponseModel.builder()
+                        WrapperApiResponse.ExceptionResponse.builder()
                                 .success(Boolean.FALSE)
                                 .status(error.getStatusCode())
                                 .code(error.getStatusCode().value())
