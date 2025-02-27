@@ -91,6 +91,7 @@ public class WrapperResponseConfig implements ResponseBodyAdvice<Object> {
         Method method = returnType.getMethod();
 
         HttpStatus statusResponse = status4Response(request, method);
+        response.setStatusCode(statusResponse);
 
         if(body instanceof ResourceResponse resourceResponse) {
 

@@ -1,4 +1,4 @@
-package com.example.englishmaster_be.common.constraint;
+package com.example.englishmaster_be.common.validator;
 
 import com.example.englishmaster_be.common.annotation.PasswordMatch;
 import jakarta.validation.ConstraintValidator;
@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 import java.lang.reflect.Field;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PasswordConstraint implements ConstraintValidator<PasswordMatch, Object> {
+public class PasswordValidator implements ConstraintValidator<PasswordMatch, Object> {
 
     String passwordFieldName;
 
