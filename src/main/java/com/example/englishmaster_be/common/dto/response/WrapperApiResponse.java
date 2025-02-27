@@ -19,6 +19,7 @@ public class WrapperApiResponse {
 
     String message;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     String path;
 
     HttpStatus status;
