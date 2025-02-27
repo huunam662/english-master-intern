@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ResultMockTestService implements IResultMockTestService {
 

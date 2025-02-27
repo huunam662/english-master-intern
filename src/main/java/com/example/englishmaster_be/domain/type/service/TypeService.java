@@ -25,7 +25,7 @@ import java.util.UUID;
 
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class TypeService implements ITypeService {
 

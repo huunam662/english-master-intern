@@ -40,7 +40,7 @@ import java.util.UUID;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 public class AdminService implements IAdminService {
 
     JPAQueryFactory queryFactory;

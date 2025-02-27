@@ -31,7 +31,7 @@ import java.util.List;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 public class AuthHelper {
 
     JwtHelper jwtHelper;

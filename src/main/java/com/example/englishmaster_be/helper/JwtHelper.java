@@ -33,7 +33,7 @@ import java.util.function.Function;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired, @Lazy})
+@RequiredArgsConstructor(onConstructor_ = {@Lazy})
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtHelper {
 
