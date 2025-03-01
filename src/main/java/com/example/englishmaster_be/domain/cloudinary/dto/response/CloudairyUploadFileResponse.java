@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CloudiaryUploadFileResponse {
+public class CloudairyUploadFileResponse {
 
 	String url;
 

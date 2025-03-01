@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Lazy})
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class QuestionQueryFactory {
 

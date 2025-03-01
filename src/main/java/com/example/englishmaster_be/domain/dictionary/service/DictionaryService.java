@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Lazy})
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DictionaryService implements IDictionaryService {
 

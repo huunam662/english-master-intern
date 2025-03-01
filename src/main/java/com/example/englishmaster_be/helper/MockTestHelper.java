@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Lazy})
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MockTestHelper {
 

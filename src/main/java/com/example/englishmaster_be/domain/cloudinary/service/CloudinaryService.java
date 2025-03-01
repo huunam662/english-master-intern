@@ -1,20 +1,18 @@
 package com.example.englishmaster_be.domain.cloudinary.service;
 
 import com.cloudinary.Cloudinary;
-import com.example.englishmaster_be.domain.cloudinary.dto.response.CloudiaryUploadFileResponse;
 import com.example.englishmaster_be.domain.file_storage.dto.response.FileResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Lazy})
+@RequiredArgsConstructor(onConstructor = @__(@Lazy))
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CloudinaryService implements ICloudinaryService {
 
